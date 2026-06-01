@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, select
+from sqlmodel import Session, select  # type: ignore
 from app.database import get_session
-from app.models import Item, Set
+from app.models import Item, Set, APIKey
 from app.middleware.auth import verify_api_key
 from pydantic import BaseModel
 from typing import List
@@ -31,7 +31,7 @@ class BulkResponse(BaseModel):
 async def mark_sold_bulk(
     req: MarkSoldRequest,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Bulk mark multiple colors as sold"""
     count = 0
@@ -74,7 +74,7 @@ async def mark_sold_bulk(
 async def adjust_inventory_bulk(
     req: AdjustInventoryRequest,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Bulk adjust inventory quantities"""
     count = 0
@@ -98,7 +98,7 @@ async def adjust_inventory_bulk(
 @router.get("/inventory/summary")
 async def get_inventory_summary(
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Get total inventory summary"""
     sets = session.exec(select(Set)).all()

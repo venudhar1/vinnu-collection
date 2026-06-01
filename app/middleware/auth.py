@@ -1,5 +1,5 @@
 from fastapi import Header, HTTPException, Depends
-from sqlmodel import Session, select
+from sqlmodel import Session, select  # type: ignore
 from app.database import get_session
 from app.models import APIKey
 from app.utils.hash_util import hash_api_key

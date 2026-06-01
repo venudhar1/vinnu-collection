@@ -238,3 +238,140 @@ def test_duplicate_sku(client: TestClient, api_key: str):
     )
     assert response.status_code == 400
     assert "SKU already exists" in response.json()["detail"]
+
+
+def test_public_catalog(client: TestClient, api_key: str):
+    """Test public routes that do not require an API key"""
+    # Create a set and an item using admin API key
+    set_res = client.post(
+        "/sets/",
+        headers={"x-api-key": api_key},
+        json={"name": "Public Collection", "description": "Public test collection"}
+    )
+    set_id = set_res.json()["id"]
+    
+    item_res = client.post(
+        f"/sets/{set_id}/items",
+        headers={"x-api-key": api_key},
+        json={
+            "color": "Green",
+            "sku": "PUB-GRN-001",
+            "quantity": 3,
+            "price": 999.00
+        }
+    )
+    item_id = item_res.json()["id"]
+
+    # Test list sets publicly (no auth header)
+    res = client.get("/public/sets")
+    assert res.status_code == 200
+    assert len(res.json()) > 0
+    assert any(s["id"] == set_id for s in res.json())
+
+    # Test get set publicly
+    res = client.get(f"/public/sets/{set_id}")
+    assert res.status_code == 200
+    assert res.json()["name"] == "Public Collection"
+
+    # Test list items publicly
+    res = client.get(f"/public/sets/{set_id}/items")
+    assert res.status_code == 200
+    assert len(res.json()) == 1
+    assert res.json()[0]["id"] == item_id
+
+
+def test_checkout_and_orders(client: TestClient, api_key: str):
+    """Test order creation/checkout, stock adjustments, and order lookups"""
+    # Create a set and items
+    set_res = client.post(
+        "/sets/",
+        headers={"x-api-key": api_key},
+        json={"name": "Order Collection", "description": "Collection for testing orders"}
+    )
+    set_id = set_res.json()["id"]
+
+    item1_res = client.post(
+        f"/sets/{set_id}/items",
+        headers={"x-api-key": api_key},
+        json={
+            "color": "Gold",
+            "sku": "ORD-GLD-001",
+            "quantity": 5,
+            "price": 2000.00
+        }
+    )
+    item1_id = item1_res.json()["id"]
+
+    item2_res = client.post(
+        f"/sets/{set_id}/items",
+        headers={"x-api-key": api_key},
+        json={
+            "color": "Silver",
+            "sku": "ORD-SLV-001",
+            "quantity": 1,
+            "price": 1500.00
+        }
+    )
+    item2_id = item2_res.json()["id"]
+
+    # Run client checkout
+    checkout_res = client.post(
+        "/orders/checkout",
+        json={
+            "customer_name": "Test Customer",
+            "customer_email": "customer@example.com",
+            "customer_phone": "1234567890",
+            "shipping_address": "123 Test Street",
+            "items": [
+                {"item_id": item1_id, "quantity": 2},
+                {"item_id": item2_id, "quantity": 1}
+            ]
+        }
+    )
+    assert checkout_res.status_code == 201
+    order_data = checkout_res.json()
+    assert order_data["customer_name"] == "Test Customer"
+    assert order_data["total_amount"] == (2000.00 * 2 + 1500.00 * 1)
+    assert order_data["status"] == "paid"
+    order_id = order_data["id"]
+
+    # Verify inventory was decremented
+    # Item 1: went from 5 to 3. Should still be "available"
+    item1_get = client.get(f"/sets/{set_id}/items/{item1_id}", headers={"x-api-key": api_key})
+    assert item1_get.json()["quantity"] == 3
+    assert item1_get.json()["status"] == "available"
+
+    # Item 2: went from 1 to 0. Should be "sold"
+    item2_get = client.get(f"/sets/{set_id}/items/{item2_id}", headers={"x-api-key": api_key})
+    assert item2_get.json()["quantity"] == 0
+    assert item2_get.json()["status"] == "sold"
+
+    # Verify parent set total calculations:
+    # Initial: total_items = 2, total_available = 2, total_sold = 0
+    # After Item 2 is marked sold: total_available = 1, total_sold = 1
+    set_get = client.get(f"/sets/{set_id}", headers={"x-api-key": api_key})
+    assert set_get.json()["total_available"] == 1
+    assert set_get.json()["total_sold"] == 1
+
+    # Look up order as customer
+    lookup_res = client.get(f"/orders/customer/{order_id}")
+    assert lookup_res.status_code == 200
+    assert lookup_res.json()["customer_name"] == "Test Customer"
+    assert len(lookup_res.json()["items"]) == 2
+
+    # Look up all orders as admin
+    admin_list = client.get("/orders/", headers={"x-api-key": api_key})
+    assert admin_list.status_code == 200
+    assert len(admin_list.json()) > 0
+    assert any(o["id"] == order_id for o in admin_list.json())
+
+    # Get single order detail as admin
+    admin_detail = client.get(f"/orders/{order_id}", headers={"x-api-key": api_key})
+    assert admin_detail.status_code == 200
+    assert admin_detail.json()["customer_name"] == "Test Customer"
+
+    # Update order status as admin
+    status_update = client.put(f"/orders/{order_id}/status?status=shipped", headers={"x-api-key": api_key})
+    assert status_update.status_code == 200
+    assert status_update.json()["status"] == "shipped"
+

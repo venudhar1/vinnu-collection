@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field  # type: ignore
 from typing import Optional
 from uuid import uuid4
 from datetime import datetime
@@ -101,3 +101,62 @@ class APIKeyResponse(SQLModel):
 class BulkMarkSoldRequest(SQLModel):
     """Schema for bulk mark sold request"""
     items: list[dict]  # List of {set_id, item_id}
+
+
+class Order(SQLModel, table=True):
+    """Order model for customer purchases"""
+    __tablename__ = "orders"
+    
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
+    customer_name: str
+    customer_email: str
+    customer_phone: Optional[str] = None
+    shipping_address: str
+    total_amount: float
+    status: str = Field(default="pending")  # pending, paid, failed, cancelled
+    payment_id: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class OrderItem(SQLModel, table=True):
+    """Items within an order"""
+    __tablename__ = "order_items"
+    
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
+    order_id: str = Field(foreign_key="orders.id")
+    item_id: str = Field(foreign_key="items.id")
+    quantity: int = 1
+    price: float  # Price locked at the time of purchase
+
+
+class OrderItemCreate(SQLModel):
+    """Schema for item in order creation request"""
+    item_id: str
+    quantity: int = 1
+
+
+class OrderCreate(SQLModel):
+    """Schema for creating a new order"""
+    customer_name: str
+    customer_email: str
+    customer_phone: Optional[str] = None
+    shipping_address: str
+    items: list[OrderItemCreate]
+
+
+class OrderResponse(SQLModel):
+    """Schema for complete order response, including line items"""
+    id: str
+    customer_name: str
+    customer_email: str
+    customer_phone: Optional[str] = None
+    shipping_address: str
+    total_amount: float
+    status: str
+    payment_id: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+    items: list[OrderItem] = []
+
+
