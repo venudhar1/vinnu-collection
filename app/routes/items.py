@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, select
+from sqlmodel import Session, select  # type: ignore
 from app.database import get_session
-from app.models import Item, ItemCreate, ItemUpdate, ItemResponse, Set
+from app.models import Item, ItemCreate, ItemUpdate, ItemResponse, Set, APIKey
 from app.middleware.auth import verify_api_key
 from datetime import datetime
 import json
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/sets", tags=["Items"])
 async def list_items(
     set_id: str,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """List all colors in a set"""
     set_obj = session.get(Set, set_id)
@@ -29,7 +29,7 @@ async def add_item(
     set_id: str,
     item_data: ItemCreate,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Add a new color variant to a set"""
     set_obj = session.get(Set, set_id)
@@ -69,7 +69,7 @@ async def get_item(
     set_id: str,
     item_id: str,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Get color details"""
     item = session.get(Item, item_id)
@@ -84,7 +84,7 @@ async def update_item(
     item_id: str,
     item_data: ItemUpdate,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Update color (quantity, price, status)"""
     item = session.get(Item, item_id)
@@ -135,7 +135,7 @@ async def delete_item(
     set_id: str,
     item_id: str,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Remove a color variant"""
     item = session.get(Item, item_id)

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, select
+from sqlmodel import Session, select  # type: ignore
 from app.database import get_session
-from app.models import Set, SetCreate, SetResponse, Item
+from app.models import Set, SetCreate, SetResponse, Item, APIKey
 from app.middleware.auth import verify_api_key
 from datetime import datetime
 
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/sets", tags=["Sets"])
 @router.get("/", response_model=list[SetResponse])
 async def list_sets(
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """List all saree sets"""
     return session.exec(select(Set)).all()
@@ -21,7 +21,7 @@ async def list_sets(
 async def create_set(
     set_data: SetCreate,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Create a new saree set"""
     new_set = Set(**set_data.dict())
@@ -35,7 +35,7 @@ async def create_set(
 async def get_set(
     set_id: str,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Get set details"""
     set_obj = session.get(Set, set_id)
@@ -49,7 +49,7 @@ async def update_set(
     set_id: str,
     set_data: SetCreate,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Update set information"""
     set_obj = session.get(Set, set_id)
@@ -69,7 +69,7 @@ async def update_set(
 async def delete_set(
     set_id: str,
     session: Session = Depends(get_session),
-    _: any = Depends(verify_api_key)
+    _: APIKey = Depends(verify_api_key)
 ):
     """Delete a set"""
     set_obj = session.get(Set, set_id)

@@ -1,4 +1,4 @@
-from sqlmodel import create_engine, SQLModel, Session
+from sqlmodel import create_engine, SQLModel, Session  # type: ignore
 from sqlalchemy.pool import StaticPool
 import os
 from dotenv import load_dotenv
