@@ -94,6 +94,50 @@ Shared backend service and shared design system, with role/public API boundaries
 5. Add payment webhook handling
 6. Add transactional inventory safety checks
 
+## Inventory Sync Strategy (Customer + Manual Updates)
+Goal: keep inventory accurate whether a sale happens from storefront or from admin manual action.
+
+### Core Rules
+1. Inventory updates must happen on the backend only.
+2. Order confirmation and stock deduction must be atomic (single DB transaction).
+3. Frontend never performs stock math directly.
+
+### Purchase Flow
+1. Customer starts checkout
+   - Backend validates requested item quantities.
+2. Backend creates a `PENDING` order and reserves stock (time-limited hold).
+3. Payment succeeds
+   - Payment webhook/callback marks order `CONFIRMED`.
+   - In the same transaction:
+     - decrement item `quantity`
+     - update item `status` if needed
+     - update set totals (`total_available`, `total_sold`)
+4. Payment fails or expires
+   - Release reserved stock
+   - Mark order `FAILED` or `CANCELLED`
+
+### Manual Admin Operations
+1. Admin operations (bulk sold, adjust quantity, edit item) continue to work.
+2. Admin writes use the same backend inventory service used by checkout logic.
+3. Any conflicting/stale updates should return clear API errors and refresh hints.
+
+### Suggested Data Additions
+1. `orders` table
+2. `order_items` table
+3. `inventory_reservations` table (or reservation fields)
+4. Optional `inventory_movements` ledger for audit trail
+
+### Suggested Endpoints
+1. `POST /shop/checkout` (create pending order + reserve)
+2. `POST /shop/payment/webhook` (confirm/fail + commit/release inventory)
+3. `GET /shop/orders/{order_id}` (customer status)
+4. Admin order routes for review and manual handling
+
+### Concurrency and Oversell Protection
+1. Lock rows or use optimistic concurrency checks during stock updates.
+2. Reject checkout if available quantity is insufficient at commit time.
+3. Add idempotency keys for payment callbacks to prevent double deductions.
+
 ## Delivery Sequence Recommendation
 1. Complete Phase 1 + Phase 2 first (fastest value, uses existing backend)
 2. Implement minimum backend additions for public catalog
