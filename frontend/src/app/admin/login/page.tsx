@@ -89,6 +89,9 @@ export default function AdminLoginPage() {
           <p className="mt-2 text-xs font-sans tracking-widest text-brand-gold uppercase font-bold">
             Staff Portal Authentication
           </p>
+          <p className="mt-3 text-[11px] text-zinc-500 leading-relaxed">
+            This portal is for staff only. Customer-facing login is available at <span className="font-semibold text-brand-charcoal">/shop/login</span>.
+          </p>
         </div>
 
         {error && (

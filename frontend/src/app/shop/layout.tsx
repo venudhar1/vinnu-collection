@@ -53,7 +53,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-brand-muted" />
             </div>
 
-            <Link href="/admin/login" className="p-2 text-brand-charcoal hover:text-brand-gold transition-colors" title="Staff Dashboard">
+            <Link href="/shop/login" className="p-2 text-brand-charcoal hover:text-brand-gold transition-colors" title="Customer Login">
               <User className="w-5 h-5" />
             </Link>
 

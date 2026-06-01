@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "../../context/CartContext";
 import { 
@@ -19,6 +19,22 @@ export default function CheckoutPage() {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [pincode, setPincode] = useState("");
+  const [customerSession, setCustomerSession] = useState<null | { name?: string; email?: string; phone?: string }>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("customer_session");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setCustomerSession(parsed);
+        setName(parsed.name || "");
+        setEmail(parsed.email || "");
+        setPhone(parsed.phone || "");
+      } catch {
+        localStorage.removeItem("customer_session");
+      }
+    }
+  }, []);
   
   // Card input states
   const [cardNumber, setCardNumber] = useState("4242 4242 4242 4242");
@@ -132,6 +148,13 @@ export default function CheckoutPage() {
           <p className="text-brand-muted mt-1 leading-relaxed">Provide your coordinates and simulated card details to complete your order.</p>
         </div>
       </div>
+
+      {customerSession && (
+        <div className="mt-4 rounded-sm border border-emerald-100 bg-emerald-50 p-4 text-emerald-800 text-xs">
+          <div className="font-semibold">Signed in as {customerSession.name}</div>
+          <div className="mt-1">Your saved email is {customerSession.email}. If you want to change it, update the form below.</div>
+        </div>
+      )}
 
       {error && (
         <div className="flex items-start gap-2.5 p-4 rounded-xs bg-rose-50 border border-rose-200 text-rose-800">
