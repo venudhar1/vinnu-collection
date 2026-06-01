@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import init_db
-from app.routes import sets, items, auth_routes, bulk
+from app.routes import sets, items, auth_routes, bulk, public, orders
 from app.middleware.auth import verify_api_key
 import os
 from dotenv import load_dotenv
@@ -42,6 +42,12 @@ async def health_check():
 # Auth routes (no auth required for key creation)
 app.include_router(auth_routes.router)
 
+# Public catalog routes (no auth required)
+app.include_router(public.router)
+
+# Orders routes (auth handled per-endpoint)
+app.include_router(orders.router)
+
 # Sets routes (auth required)
 app.include_router(sets.router, dependencies=[Depends(verify_api_key)])
 
@@ -50,6 +56,7 @@ app.include_router(items.router, dependencies=[Depends(verify_api_key)])
 
 # Bulk routes (auth required)
 app.include_router(bulk.router, dependencies=[Depends(verify_api_key)])
+
 
 
 # OpenAPI endpoint

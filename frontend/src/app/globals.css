@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import "tailwindcss";
+
+
+:root {
+  --background: #FAF7F2; /* Warm Saffron Cream background */
+  --foreground: #22211F; /* Elegant charcoal body text */
+  --card-bg: #FFFFFF;
+  --border-color: #E6E0D5;
+  
+  --primary-serif: "Playfair Display", serif;
+  --primary-sans: "Plus Jakarta Sans", sans-serif;
+}
+
+@theme {
+  --font-serif: var(--primary-serif);
+  --font-sans: var(--primary-sans);
+  
+  --color-brand-cream: #FAF7F2;
+  --color-brand-gold: #C29B38;
+  --color-brand-ruby: #880E1B;
+  --color-brand-emerald: #064E3B;
+  --color-brand-marigold: #D97706;
+  --color-brand-charcoal: #22211F;
+  --color-brand-muted: #6B6864;
+  
+  --animate-fade-in: fade-in 0.4s ease-out;
+  --animate-slide-up: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-swatch-pulse: swatch-pulse 1.5s infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes swatch-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(194, 155, 56, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(194, 155, 56, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(194, 155, 56, 0); }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--primary-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  min-height: 100vh;
+}
+
+/* Custom scrollbars for a premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E0D9CD;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C29B38;
+}
+
+/* Custom glassmorphism utilities */
+.glass-nav {
+  background-color: rgba(250, 247, 242, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(230, 224, 213, 0.5);
+}
+
+.glass-card {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(230, 224, 213, 0.6);
+}
