@@ -32,6 +32,7 @@ DATABASE_URL=sqlite:///./inventory.db
 API_PORT=8000
 API_HOST=0.0.0.0
 DEBUG=True
+ADMIN_BOOTSTRAP_SECRET=replace-with-a-long-random-secret
 ```
 
 ### 4. Initialize Database
@@ -73,10 +74,11 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1
 
 ---
 
-## Creating Your First API Key
+## Creating Your First Admin API Key
 ```bash
 curl -X POST http://localhost:8000/auth/keys \
   -H "Content-Type: application/json" \
+  -H "x-admin-bootstrap-secret: replace-with-a-long-random-secret" \
   -d '{
     "name": "Test Key",
     "scopes": "read,write,admin"
@@ -84,6 +86,8 @@ curl -X POST http://localhost:8000/auth/keys \
 ```
 
 Save the returned `key` value. You'll use it for all requests.
+
+In production, do not expose key generation in the frontend. Staff keys should be created by the owner using the bootstrap secret or an existing admin API key.
 
 ---
 

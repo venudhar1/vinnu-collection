@@ -10,15 +10,28 @@ def test_health_check(client: TestClient):
 
 def test_create_api_key(client: TestClient):
     """Test creating an API key"""
-    response = client.post("/auth/keys", json={
-        "name": "Test Key",
-        "scopes": "read,write"
-    })
+    response = client.post(
+        "/auth/keys",
+        headers={"x-admin-bootstrap-secret": "test-bootstrap-secret"},
+        json={
+            "name": "Test Key",
+            "scopes": "read,write"
+        },
+    )
     assert response.status_code == 201
     data = response.json()
     assert "key" in data
     assert data["name"] == "Test Key"
     assert data["scopes"] == "read,write"
+
+
+def test_create_api_key_requires_admin_or_bootstrap(client: TestClient):
+    """Test API key creation is not public"""
+    response = client.post("/auth/keys", json={
+        "name": "Public Attempt",
+        "scopes": "read,write"
+    })
+    assert response.status_code == 403
 
 
 def test_create_set(client: TestClient, api_key: str):

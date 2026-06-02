@@ -35,9 +35,13 @@ def client_fixture(session: Session):
 @pytest.fixture
 def api_key(client: TestClient):
     """Create a test API key"""
-    response = client.post("/auth/keys", json={
-        "name": "Test Key",
-        "scopes": "read,write,admin"
-    })
+    response = client.post(
+        "/auth/keys",
+        headers={"x-admin-bootstrap-secret": "test-bootstrap-secret"},
+        json={
+            "name": "Test Key",
+            "scopes": "read,write,admin"
+        },
+    )
     assert response.status_code == 201
     return response.json()["key"]

@@ -3,6 +3,7 @@ inventory.db
 __pycache__/
 .pytest_cache/
 *.pyc
+*.log
 .venv/
 venv/
 env/

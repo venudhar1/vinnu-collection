@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { User, ShieldCheck, Sparkles, ArrowRight, LogOut } from "lucide-react";
+import { User, ShieldCheck } from "lucide-react";
 
 export default function ShopLoginPage() {
   const router = useRouter();
@@ -170,11 +169,9 @@ export default function ShopLoginPage() {
           Continue as Guest
         </button>
 
-        <div className="pt-6 text-center text-[11px] text-zinc-500">
-          <p>
-            Need staff access? Use <Link href="/admin/login" className="font-bold text-brand-charcoal underline">Admin Login</Link>.
-          </p>
-        </div>
+        <p className="pt-6 text-center text-[11px] text-zinc-500">
+          Your details stay on this device and help us prepare your checkout faster.
+        </p>
       </div>
     </div>
   );
