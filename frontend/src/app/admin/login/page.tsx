@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/`, {
         headers: {
           "x-api-key": keyToVerify,
         },
