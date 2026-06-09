@@ -160,7 +160,7 @@ export default function AdminItemsPage({ params }: { params: Promise<{ id: strin
   // Bulk Mark Sold Mutation
   const bulkMarkSoldMutation = useMutation({
     mutationFn: async (itemsList: Array<{ set_id: string; item_id: string }>) => {
-      const res = await fetch("http://localhost:8000/bulk/mark-sold", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/bulk/mark-sold`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -181,7 +181,7 @@ export default function AdminItemsPage({ params }: { params: Promise<{ id: strin
   // Bulk Quantity Adjust Mutation
   const bulkAdjustMutation = useMutation({
     mutationFn: async (adjustments: Array<{ item_id: string; quantity_change: number }>) => {
-      const res = await fetch("http://localhost:8000/bulk/adjust-inventory", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/bulk/adjust-inventory`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -18,7 +18,7 @@ export default function ShopHomePage() {
   const { data: sets, isLoading } = useQuery<SetItem[]>({
     queryKey: ["public_sets"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8000/public/sets");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/public/sets`);
       if (!res.ok) throw new Error("Failed to fetch collections");
       return res.json();
     },

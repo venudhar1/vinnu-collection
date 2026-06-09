@@ -41,7 +41,7 @@ export default function AdminSetsPage() {
   const { data: sets, isLoading } = useQuery<SetItem[]>({
     queryKey: ["admin_sets", apiKey],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8000/sets", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets`, {
         headers: { "x-api-key": apiKey! },
       });
       if (!res.ok) throw new Error("Failed to fetch sets");
@@ -53,7 +53,7 @@ export default function AdminSetsPage() {
   // Create Set Mutation
   const createMutation = useMutation({
     mutationFn: async (data: { name: string; description: string }) => {
-      const res = await fetch("http://localhost:8000/sets/", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

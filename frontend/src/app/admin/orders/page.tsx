@@ -44,7 +44,7 @@ export default function AdminOrdersPage() {
   const { data: orders, isLoading } = useQuery<OrderRecord[]>({
     queryKey: ["admin_orders", apiKey],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8000/orders/", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/orders/`, {
         headers: { "x-api-key": apiKey! },
       });
       if (!res.ok) throw new Error("Failed to fetch orders");

@@ -36,7 +36,7 @@ export default function AdminDashboardPage() {
     queryKey: ["admin_summary", apiKey],
     queryFn: async () => {
       if (!apiKey) throw new Error("No API key configured");
-      const res = await fetch("http://localhost:8000/bulk/inventory/summary", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/bulk/inventory/summary`, {
         headers: { "x-api-key": apiKey },
       });
       if (!res.ok) {
