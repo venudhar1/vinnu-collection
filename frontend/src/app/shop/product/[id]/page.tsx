@@ -44,7 +44,7 @@ function ProductDetailContent({ setId }: { setId: string }) {
   const { data: setObj, isLoading: isSetLoading } = useQuery<SetItem>({
     queryKey: ["public_set_detail", setId],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:8000/public/sets/${setId}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/public/sets/${setId}`);
       if (!res.ok) throw new Error("Failed to fetch set detail");
       return res.json();
     },
@@ -54,7 +54,7 @@ function ProductDetailContent({ setId }: { setId: string }) {
   const { data: items, isLoading: isItemsLoading } = useQuery<Item[]>({
     queryKey: ["public_set_items", setId],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:8000/public/sets/${setId}/items`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/public/sets/${setId}/items`);
       if (!res.ok) throw new Error("Failed to fetch items");
       return res.json();
     },

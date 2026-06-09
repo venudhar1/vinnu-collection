@@ -57,7 +57,7 @@ export default function AdminOrdersPage() {
   const updateStatusMutation = useMutation({
     mutationFn: async (data: { orderId: string; status: string }) => {
       const res = await fetch(
-        `http://localhost:8000/orders/${data.orderId}/status?status=${data.status}`,
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/orders/${data.orderId}/status?status=${data.status}`,
         {
           method: "PUT",
           headers: {

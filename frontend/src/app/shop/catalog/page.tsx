@@ -69,7 +69,7 @@ function CatalogContent() {
     queryFn: async () => {
       if (!sets) return [];
       const promises = sets.map(async (set) => {
-        const res = await fetch(`http://localhost:8000/public/sets/${set.id}/items`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/public/sets/${set.id}/items`);
         if (!res.ok) return [];
         return res.json();
       });

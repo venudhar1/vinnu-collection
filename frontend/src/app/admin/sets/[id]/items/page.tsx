@@ -65,7 +65,7 @@ export default function AdminItemsPage({ params }: { params: Promise<{ id: strin
   const { data: setObj, isLoading: isSetLoading } = useQuery<SetItem>({
     queryKey: ["admin_set_detail", setId, apiKey],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:8000/sets/${setId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/${setId}`, {
         headers: { "x-api-key": apiKey! },
       });
       if (!res.ok) throw new Error("Failed to fetch set details");
@@ -78,7 +78,7 @@ export default function AdminItemsPage({ params }: { params: Promise<{ id: strin
   const { data: items, isLoading: isItemsLoading } = useQuery<Item[]>({
     queryKey: ["admin_set_items", setId, apiKey],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:8000/sets/${setId}/items`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/${setId}/items`, {
         headers: { "x-api-key": apiKey! },
       });
       if (!res.ok) throw new Error("Failed to fetch items");
@@ -90,7 +90,7 @@ export default function AdminItemsPage({ params }: { params: Promise<{ id: strin
   // Create Item Mutation
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const res = await fetch(`http://localhost:8000/sets/${setId}/items`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/${setId}/items`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +117,7 @@ export default function AdminItemsPage({ params }: { params: Promise<{ id: strin
   // Update Item Mutation
   const updateMutation = useMutation({
     mutationFn: async (data: { itemId: string; body: any }) => {
-      const res = await fetch(`http://localhost:8000/sets/${setId}/items/${data.itemId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/${setId}/items/${data.itemId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -144,7 +144,7 @@ export default function AdminItemsPage({ params }: { params: Promise<{ id: strin
   // Delete Item Mutation
   const deleteMutation = useMutation({
     mutationFn: async (itemId: string) => {
-      const res = await fetch(`http://localhost:8000/sets/${setId}/items/${itemId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/${setId}/items/${itemId}`, {
         method: "DELETE",
         headers: { "x-api-key": apiKey! },
       });

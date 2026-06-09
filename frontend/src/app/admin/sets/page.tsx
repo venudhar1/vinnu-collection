@@ -41,7 +41,7 @@ export default function AdminSetsPage() {
   const { data: sets, isLoading } = useQuery<SetItem[]>({
     queryKey: ["admin_sets", apiKey],
     queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/`, {
         headers: { "x-api-key": apiKey! },
       });
       if (!res.ok) throw new Error("Failed to fetch sets");
@@ -76,7 +76,7 @@ export default function AdminSetsPage() {
   // Update Set Mutation
   const updateMutation = useMutation({
     mutationFn: async (data: { id: string; name: string; description: string }) => {
-      const res = await fetch(`http://localhost:8000/sets/${data.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/${data.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export default function AdminSetsPage() {
   // Delete Set Mutation
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`http://localhost:8000/sets/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/sets/${id}`, {
         method: "DELETE",
         headers: { "x-api-key": apiKey! },
       });
