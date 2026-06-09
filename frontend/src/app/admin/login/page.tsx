@@ -35,7 +35,8 @@ export default function AdminLoginPage() {
         setError(errData.detail || "Authentication failed. Invalid API Key.");
       }
     } catch {
-      setError("Cannot connect to backend server. Make sure FastAPI is running on port 8000.");
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      setError(`Cannot connect to backend server at ${apiUrl}. Make sure FastAPI is running.`);
     } finally {
       setLoading(false);
     }
