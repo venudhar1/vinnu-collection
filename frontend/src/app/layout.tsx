@@ -3,7 +3,7 @@ import "./globals.css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "Vinnu Collection | Premium Indian Sarees",
+  title: "Venu Collections | Premium Indian Sarees",
   description: "Discover our exclusive collections of authentic Banarasi, Kanchipuram, and Designer silk sarees. Handcrafted elegance for every occasion.",
 };
 

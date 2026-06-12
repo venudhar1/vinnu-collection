@@ -1,6 +1,6 @@
-# Vinnu Saree Boutique — Storefront & Inventory Application
+# Venu Saree Boutique — Storefront & Inventory Application
 
-Vinnu is an elegant, full-stack boutique storefront and inventory management application designed for a luxury handloom saree business. 
+Venu is an elegant, full-stack boutique storefront and inventory management application designed for a luxury handloom saree business. 
 
 The application comprises two main interfaces:
 1. **Customer Storefront (`/shop`)**: A warm, contemporary Indian-themed catalog showing handcrafted collections, color swatches, inventory availability, and checkout forms.
@@ -23,7 +23,7 @@ You will need two terminal windows open: one for the Backend, and one for the Fr
 
 1. Open your terminal in the project root:
    ```bash
-   cd c:\source\vinnu-collection
+   cd c:\source\venu-collections
    ```
 2. Activate the Python virtual environment:
    * **Windows (PowerShell):**
@@ -52,7 +52,7 @@ You will need two terminal windows open: one for the Backend, and one for the Fr
 
 1. Open a new terminal in the frontend directory:
    ```bash
-   cd c:\source\vinnu-collection\frontend
+   cd c:\source\venu-collections\frontend
    ```
 2. Install npm dependencies:
    ```bash

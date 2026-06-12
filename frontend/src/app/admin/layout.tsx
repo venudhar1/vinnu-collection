@@ -51,7 +51,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="h-20 flex items-center gap-2 px-6 border-b border-zinc-850">
           <ShieldCheck className="w-6 h-6 text-brand-gold" />
           <div>
-            <span className="font-serif text-lg tracking-widest text-brand-gold block -mb-1">VINNU</span>
+            <span className="font-serif text-lg tracking-widest text-brand-gold block -mb-1">VENU</span>
             <span className="text-[9px] font-sans tracking-widest text-zinc-400 font-bold uppercase">Staff Admin Panel</span>
           </div>
         </div>

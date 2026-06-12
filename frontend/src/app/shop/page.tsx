@@ -159,7 +159,7 @@ export default function ShopHomePage() {
           <span className="text-[10px] uppercase font-bold tracking-wider text-brand-gold block font-sans">Our Devotion</span>
           <h2 className="text-3xl font-serif text-brand-charcoal tracking-wide leading-tight">Preserving the Art of the Weaving Loom</h2>
           <p className="text-xs sm:text-sm text-brand-muted leading-relaxed font-sans">
-            Every saree we curate at Vinnu Collection is selected for its authenticity. We partner directly with weaving families in Banaras, Kanchipuram, and Sambalpur, bypassing intermediaries. This secures a fair wage for the artisans and ensures you receive a masterpiece of verified origin and outstanding quality.
+            Every saree we curate at Venu Collections is selected for its authenticity. We partner directly with weaving families in Banaras, Kanchipuram, and Sambalpur, bypassing intermediaries. This secures a fair wage for the artisans and ensures you receive a masterpiece of verified origin and outstanding quality.
           </p>
           <div className="border-l-2 border-brand-gold pl-4 text-xs font-sans text-brand-charcoal font-medium italic">
             &quot;Saree drape is not just attire, it is the celebration of centuries of handloom culture and storytelling.&quot;

@@ -1,6 +1,6 @@
 # Low-Memory Startup Plan
 
-This plan documents how to run both the Vinnu frontend and backend on a constrained environment with 1 CPU and 512 MB RAM.
+This plan documents how to run both the Venu frontend and backend on a constrained environment with 1 CPU and 512 MB RAM.
 
 ## Goal
 
@@ -16,7 +16,7 @@ Run the application locally with minimal resource usage by using production mode
 ### Backend command
 
 ```bash
-cd /home/vinnu/vinnu-collection
+cd /home/venu/venu-collections
 . .venv/bin/activate
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1 --limit-concurrency 1 --log-level warning
 ```
@@ -37,15 +37,15 @@ nice -n 10 uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1 --limit-c
 ### Frontend commands
 
 ```bash
-cd /home/vinnu/vinnu-collection/frontend
-PATH=/home/vinnu/.local/node/node-v20.20.2-linux-x64/bin:$PATH npm run build
-PATH=/home/vinnu/.local/node/node-v20.20.2-linux-x64/bin:$PATH NODE_OPTIONS="--max-old-space-size=256" npm run start -- --hostname 0.0.0.0 --port 3000
+cd /home/venu/venu-collections/frontend
+PATH=/home/venu/.local/node/node-v20.20.2-linux-x64/bin:$PATH npm run build
+PATH=/home/venu/.local/node/node-v20.20.2-linux-x64/bin:$PATH NODE_OPTIONS="--max-old-space-size=256" npm run start -- --hostname 0.0.0.0 --port 3000
 ```
 
 ### If 512 MB is still too tight
 
 ```bash
-PATH=/home/vinnu/.local/node/node-v20.20.2-linux-x64/bin:$PATH NODE_OPTIONS="--max-old-space-size=192" npm run start -- --hostname 0.0.0.0 --port 3000
+PATH=/home/venu/.local/node/node-v20.20.2-linux-x64/bin:$PATH NODE_OPTIONS="--max-old-space-size=192" npm run start -- --hostname 0.0.0.0 --port 3000
 ```
 
 ## Verification

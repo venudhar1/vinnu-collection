@@ -24,8 +24,8 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
           <div className="flex items-center gap-8">
             {/* Elegant Serif Logo */}
             <Link href="/shop" className="text-2xl font-serif tracking-widest text-brand-charcoal hover:opacity-80 transition-opacity">
-              VINNU
-              <span className="text-[10px] block font-sans tracking-widest text-brand-gold -mt-1 font-medium">COLLECTION</span>
+              VENU
+              <span className="text-[10px] block font-sans tracking-widest text-brand-gold -mt-1 font-medium">COLLECTIONS</span>
             </Link>
             
             {/* Desktop Navigation */}
@@ -82,7 +82,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       <footer className="bg-brand-charcoal text-white mt-12 py-12 border-t border-brand-gold/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-serif text-lg tracking-widest text-brand-gold mb-4">VINNU</h3>
+            <h3 className="font-serif text-lg tracking-widest text-brand-gold mb-4">VENU</h3>
             <p className="text-xs text-slate-300 leading-relaxed max-w-xs">
               Handcrafted with devotion, celebrating the timeless elegance of Indian weave traditions. Offering authentic fabrics directly from heritage artisans.
             </p>
@@ -119,7 +119,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-zinc-800 mt-10 pt-6 flex flex-col sm:flex-row justify-between text-zinc-500 text-[10px]">
-          <p>© 2026 Vinnu Collection. All rights reserved. Made in India.</p>
+          <p>© 2026 Venu Collections. All rights reserved. Made in India.</p>
           <div className="flex gap-4 mt-2 sm:mt-0">
             <span className="hover:text-white cursor-pointer">Privacy Policy</span>
             <span className="hover:text-white cursor-pointer">Terms of Service</span>

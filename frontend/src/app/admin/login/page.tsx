@@ -55,7 +55,7 @@ export default function AdminLoginPage() {
     <div className="flex items-center justify-center min-h-screen px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 bg-white p-10 rounded-sm border border-[#E6E0D5] shadow-xs">
         <div className="text-center">
-          <h2 className="text-3xl font-serif tracking-widest text-brand-charcoal">VINNU</h2>
+          <h2 className="text-3xl font-serif tracking-widest text-brand-charcoal">VENU</h2>
           <p className="mt-2 text-xs font-sans tracking-widest text-brand-gold uppercase font-bold">
             Staff Portal Authentication
           </p>
