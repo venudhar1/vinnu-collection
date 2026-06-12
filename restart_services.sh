@@ -1,6 +1,14 @@
 #!/bin/bash
 
-# Restart Venu services on the VM (stops frontend first, then backend; starts backend first, then frontend)
+# Pull changes, rebuild frontend, and restart Venu services on the VM
+
+echo "Pulling latest changes from Git..."
+git pull
+
+echo "Rebuilding frontend..."
+cd frontend
+npm run build
+cd ..
 
 echo "Stopping Venu services..."
 echo "Stopping frontend..."
@@ -14,4 +22,4 @@ sudo systemctl start venu-backend
 echo "Starting frontend..."
 sudo systemctl start venu-frontend
 
-echo "Venu services restarted successfully."
+echo "Venu services updated and restarted successfully."
