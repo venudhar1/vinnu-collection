@@ -7,7 +7,7 @@ git pull
 
 echo "Rebuilding frontend..."
 cd frontend
-npm run build
+NODE_OPTIONS="--max-old-space-size=2048" npm run build
 cd ..
 
 echo "Stopping Venu services..."
