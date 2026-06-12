@@ -118,8 +118,6 @@ stock_inventory/
 ├── .env                        # Environment variables
 ├── .gitignore                  # Git ignore rules
 ├── requirements.txt            # Python dependencies
-├── Dockerfile                  # Docker container
-├── docker-compose.yml          # Docker compose setup
 ├── inventory.db               # SQLite database (auto-created)
 └── [13 markdown files]        # Full documentation
 ```

@@ -104,7 +104,6 @@ To access the `/admin` portal, you require an API key:
 - SQLite (via SQLModel/SQLAlchemy)
 - Uvicorn
 - API key middleware
-- Optional: Dockerfile
 
 **Contents:**
 - API specification
