@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select  # type: ignore
 from app.database import get_session
-from app.models import Order, OrderItem, OrderCreate, OrderResponse, Item, Set, APIKey
+from app.models import Order, OrderItem, OrderCreate, OrderResponse, Item, Set, APIKey, OrderItemResponse
 from app.middleware.auth import verify_api_key
 from datetime import datetime
 
@@ -77,7 +77,8 @@ async def checkout(
         customer_phone=order_data.customer_phone,
         shipping_address=order_data.shipping_address,
         total_amount=total_amount,
-        status="paid"  # Simulating paid status immediately for MVP checkout flow
+        status="pending" if order_data.payment_id else "paid",
+        payment_id=order_data.payment_id
     )
     
     session.add(new_order)
@@ -104,24 +105,54 @@ async def checkout(
     session.commit()
     session.refresh(new_order)
     
-    # Retrieve order items list for response
-    statement = select(OrderItem).where(OrderItem.order_id == new_order.id)
-    items = session.exec(statement).all()
+    return make_order_response(new_order, session)
+
+
+def make_order_response(order: Order, session: Session) -> OrderResponse:
+    """Helper to construct OrderResponse with detailed product attributes"""
+    statement = select(OrderItem).where(OrderItem.order_id == order.id)
+    db_items = session.exec(statement).all()
     
-    response = OrderResponse(
-        id=new_order.id,
-        customer_name=new_order.customer_name,
-        customer_email=new_order.customer_email,
-        customer_phone=new_order.customer_phone,
-        shipping_address=new_order.shipping_address,
-        total_amount=new_order.total_amount,
-        status=new_order.status,
-        payment_id=new_order.payment_id,
-        created_at=new_order.created_at,
-        updated_at=new_order.updated_at,
-        items=items
+    response_items = []
+    for db_item in db_items:
+        # Fetch detailed item and set info
+        item = session.get(Item, db_item.item_id)
+        sku = None
+        color = None
+        set_name = None
+        if item:
+            sku = item.sku
+            color = item.color
+            parent_set = session.get(Set, item.set_id)
+            if parent_set:
+                set_name = parent_set.name
+        
+        response_items.append(
+            OrderItemResponse(
+                id=db_item.id,
+                order_id=db_item.order_id,
+                item_id=db_item.item_id,
+                quantity=db_item.quantity,
+                price=db_item.price,
+                sku=sku,
+                color=color,
+                set_name=set_name
+            )
+        )
+        
+    return OrderResponse(
+        id=order.id,
+        customer_name=order.customer_name,
+        customer_email=order.customer_email,
+        customer_phone=order.customer_phone,
+        shipping_address=order.shipping_address,
+        total_amount=order.total_amount,
+        status=order.status,
+        payment_id=order.payment_id,
+        created_at=order.created_at,
+        updated_at=order.updated_at,
+        items=response_items
     )
-    return response
 
 
 @router.get("/customer/{order_id}", response_model=OrderResponse)
@@ -134,22 +165,7 @@ async def get_customer_order(
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
         
-    statement = select(OrderItem).where(OrderItem.order_id == order_id)
-    items = session.exec(statement).all()
-    
-    return OrderResponse(
-        id=order.id,
-        customer_name=order.customer_name,
-        customer_email=order.customer_email,
-        customer_phone=order.customer_phone,
-        shipping_address=order.shipping_address,
-        total_amount=order.total_amount,
-        status=order.status,
-        payment_id=order.payment_id,
-        created_at=order.created_at,
-        updated_at=order.updated_at,
-        items=items
-    )
+    return make_order_response(order, session)
 
 
 @router.get("/", response_model=list[OrderResponse])
@@ -159,27 +175,7 @@ async def list_orders_admin(
 ):
     """Admin dashboard: List all orders (requires API key)"""
     orders = session.exec(select(Order)).all()
-    response_orders = []
-    
-    for order in orders:
-        statement = select(OrderItem).where(OrderItem.order_id == order.id)
-        items = session.exec(statement).all()
-        response_orders.append(
-            OrderResponse(
-                id=order.id,
-                customer_name=order.customer_name,
-                customer_email=order.customer_email,
-                customer_phone=order.customer_phone,
-                shipping_address=order.shipping_address,
-                total_amount=order.total_amount,
-                status=order.status,
-                payment_id=order.payment_id,
-                created_at=order.created_at,
-                updated_at=order.updated_at,
-                items=items
-            )
-        )
-    return response_orders
+    return [make_order_response(order, session) for order in orders]
 
 
 @router.get("/{order_id}", response_model=OrderResponse)
@@ -193,22 +189,7 @@ async def get_order_admin(
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
         
-    statement = select(OrderItem).where(OrderItem.order_id == order_id)
-    items = session.exec(statement).all()
-    
-    return OrderResponse(
-        id=order.id,
-        customer_name=order.customer_name,
-        customer_email=order.customer_email,
-        customer_phone=order.customer_phone,
-        shipping_address=order.shipping_address,
-        total_amount=order.total_amount,
-        status=order.status,
-        payment_id=order.payment_id,
-        created_at=order.created_at,
-        updated_at=order.updated_at,
-        items=items
-    )
+    return make_order_response(order, session)
 
 
 @router.put("/{order_id}/status", response_model=OrderResponse)
@@ -229,19 +210,5 @@ async def update_order_status_admin(
     session.commit()
     session.refresh(order)
     
-    statement = select(OrderItem).where(OrderItem.order_id == order_id)
-    items = session.exec(statement).all()
-    
-    return OrderResponse(
-        id=order.id,
-        customer_name=order.customer_name,
-        customer_email=order.customer_email,
-        customer_phone=order.customer_phone,
-        shipping_address=order.shipping_address,
-        total_amount=order.total_amount,
-        status=order.status,
-        payment_id=order.payment_id,
-        created_at=order.created_at,
-        updated_at=order.updated_at,
-        items=items
-    )
+    return make_order_response(order, session)
+

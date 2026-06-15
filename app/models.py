@@ -143,6 +143,19 @@ class OrderCreate(SQLModel):
     customer_phone: Optional[str] = None
     shipping_address: str
     items: list[OrderItemCreate]
+    payment_id: Optional[str] = None
+
+
+class OrderItemResponse(SQLModel):
+    """Schema for order item response, containing additional variant details"""
+    id: str
+    order_id: str
+    item_id: str
+    quantity: int
+    price: float
+    sku: Optional[str] = None
+    color: Optional[str] = None
+    set_name: Optional[str] = None
 
 
 class OrderResponse(SQLModel):
@@ -157,6 +170,7 @@ class OrderResponse(SQLModel):
     payment_id: Optional[str] = None
     created_at: datetime
     updated_at: datetime
-    items: list[OrderItem] = []
+    items: list[OrderItemResponse] = []
+
 
 

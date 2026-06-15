@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "../../context/CartContext";
 import { 
-  ShoppingBag, CheckCircle, ShieldCheck, CreditCard, 
+  ShoppingBag, CheckCircle, ShieldCheck, QrCode, Lock, 
   ArrowLeft, AlertTriangle, Send 
 } from "lucide-react";
 
@@ -36,15 +36,27 @@ export default function CheckoutPage() {
     }
   }, []);
   
-  // Card input states
-  const [cardNumber, setCardNumber] = useState("4242 4242 4242 4242");
-  const [cardExpiry, setCardExpiry] = useState("12/28");
-  const [cardCvc, setCardCvc] = useState("123");
+  // UPI Transaction ID state
+  const [transactionId, setTransactionId] = useState("");
 
   // Flow states
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [orderResult, setOrderResult] = useState<any>(null);
+
+  const generateTransactionNote = () => {
+    if (cart.length === 0) return "";
+    const itemsStr = cart.map(({ item, set }) => {
+      // (SKU,color,model) note formatting
+      return `${item.sku}: ${set.name} (${item.color})`;
+    }).join(", ");
+    
+    // Truncate to maximum 50 characters to comply with UPI specifications
+    if (itemsStr.length > 50) {
+      return itemsStr.slice(0, 47) + "...";
+    }
+    return itemsStr;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +71,7 @@ export default function CheckoutPage() {
       customer_email: email,
       customer_phone: phone || null,
       shipping_address: fullAddress,
+      payment_id: transactionId || null,
       items: cart.map(({ item, quantity }) => ({
         item_id: item.id,
         quantity,
@@ -272,50 +285,101 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
-
-            {/* Simulated Payment Card */}
-            <div className="bg-white border border-[#E6E0D5] p-6 rounded-xs space-y-4 shadow-xs">
+            {/* UPI Scan & Pay Card */}
+            <div className="bg-white border border-[#E6E0D5] p-6 rounded-xs space-y-6 shadow-xs">
               <div className="flex items-center gap-2 border-b border-[#FAF7F2] pb-2">
-                <CreditCard className="w-5 h-5 text-brand-gold" />
-                <h3 className="font-serif text-base text-brand-charcoal">Simulated Card Payment</h3>
-              </div>
-              <div className="p-3 bg-brand-cream border border-brand-gold/30 text-brand-gold flex items-start gap-2 rounded-xs">
-                <ShieldCheck className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <p className="leading-relaxed">This is a checkout simulation for the storefront MVP. No real card verification or payments are charged.</p>
+                <QrCode className="w-5 h-5 text-brand-gold" />
+                <h3 className="font-serif text-base text-brand-charcoal">UPI Scan & Pay</h3>
               </div>
 
-              <div className="space-y-1">
-                <label className="font-semibold text-brand-charcoal tracking-wide uppercase">Card Number</label>
+              {/* Trust & Safety Assurances */}
+              <div className="p-4 bg-emerald-50 border border-emerald-100 text-emerald-800 rounded-sm space-y-2">
+                <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-[10px]">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                  <span>100% Secured UPI Transaction</span>
+                </div>
+                <p className="text-[11px] leading-relaxed text-emerald-700 font-sans font-medium">
+                  Your money is 100% safe. The payment is processed securely via India's Unified Payments Interface. We do not collect, store, or have access to any of your bank account credentials or PINs.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                {/* QR Code Container */}
+                <div className="flex flex-col items-center justify-center p-4 bg-[#FAF7F2] border border-[#E6E0D5] rounded-xs">
+                  <div className="bg-white p-3 rounded-xs border border-zinc-200 shadow-xs">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img 
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
+                        `upi://pay?pa=9963988633@kotak&pn=Venu%20Collections&am=${cartTotal}&tn=${generateTransactionNote()}&cu=INR`
+                      )}`}
+                      alt="UPI Payment QR Code"
+                      className="w-44 h-44"
+                    />
+                  </div>
+                  <span className="text-[9px] uppercase font-bold tracking-wider text-brand-muted mt-3 text-center">
+                    Scan with GPay, PhonePe, Paytm, BHIM, etc.
+                  </span>
+                </div>
+
+                {/* UPI Details & Instructions */}
+                <div className="space-y-4">
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between border-b border-zinc-100 pb-1.5">
+                      <span className="text-zinc-400">Payee Name:</span>
+                      <span className="font-semibold text-brand-charcoal">Venu Collections</span>
+                    </div>
+                    <div className="flex justify-between border-b border-zinc-100 pb-1.5">
+                      <span className="text-zinc-400">UPI ID:</span>
+                      <span className="font-mono font-semibold text-brand-charcoal">9963988633@kotak</span>
+                    </div>
+                    <div className="flex justify-between border-b border-zinc-100 pb-1.5">
+                      <span className="text-zinc-400">Amount to Pay:</span>
+                      <span className="font-bold text-brand-ruby text-sm">₹{cartTotal.toLocaleString()}</span>
+                    </div>
+                    <div className="flex flex-col gap-1 pb-1">
+                      <span className="text-zinc-400">Transaction Note (Pre-filled):</span>
+                      <span className="bg-brand-cream border border-brand-gold/20 px-2.5 py-1.5 rounded-sm font-mono text-[9px] text-brand-gold leading-tight break-all font-bold">
+                        {generateTransactionNote()}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Mobile Deep Link Button */}
+                  <div className="block md:hidden">
+                    <a
+                      href={`upi://pay?pa=9963988633@kotak&pn=Venu%20Collections&am=${cartTotal}&tn=${encodeURIComponent(generateTransactionNote())}&cu=INR`}
+                      className="w-full flex items-center justify-center gap-2 bg-[#FAF7F2] border border-[#E6E0D5] hover:bg-zinc-100 text-brand-charcoal text-[11px] font-bold uppercase tracking-wider py-2.5 rounded-sm transition-all"
+                    >
+                      <Send className="w-3.5 h-3.5 text-brand-gold" />
+                      Pay via Mobile UPI App
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Warning/Instruction about Note */}
+              <div className="p-3 bg-brand-cream border border-brand-gold/30 text-brand-gold rounded-xs text-[11px] leading-relaxed font-sans font-medium">
+                <strong>Important Instruction:</strong> Please do not modify or delete the transaction note inside your UPI payment app. This note contains the exact saree details (SKU, color, model) and helps us track and ship your order correctly.
+              </div>
+
+              {/* Transaction ID input field */}
+              <div className="space-y-1.5 border-t border-zinc-100 pt-4">
+                <label className="font-semibold text-brand-charcoal tracking-wide uppercase flex items-center gap-1.5">
+                  <Lock className="w-3.5 h-3.5 text-brand-gold" />
+                  UPI Transaction ID / UTR Number
+                </label>
                 <input
                   type="text"
                   required
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#E6E0D5] rounded-sm focus:outline-hidden focus:border-brand-gold font-mono"
+                  pattern="\d{12}"
+                  value={transactionId}
+                  onChange={(e) => setTransactionId(e.target.value.replace(/\D/g, "").slice(0, 12))}
+                  placeholder="Enter the 12-digit transaction ID after payment"
+                  className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#E6E0D5] rounded-sm focus:outline-hidden focus:border-brand-gold font-mono text-sm"
                 />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="font-semibold text-brand-charcoal tracking-wide uppercase">Expiry Date</label>
-                  <input
-                    type="text"
-                    required
-                    value={cardExpiry}
-                    onChange={(e) => setCardExpiry(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#E6E0D5] rounded-sm focus:outline-hidden focus:border-brand-gold font-mono"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="font-semibold text-brand-charcoal tracking-wide uppercase">CVC Code</label>
-                  <input
-                    type="password"
-                    required
-                    value={cardCvc}
-                    onChange={(e) => setCardCvc(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#E6E0D5] rounded-sm focus:outline-hidden focus:border-brand-gold font-mono"
-                  />
-                </div>
+                <span className="text-[10px] text-brand-muted block mt-1 leading-relaxed">
+                  Submit the 12-digit Transaction ID/UTR from your payment confirmation screen. Once submitted, our team will verify it against our receiver statement to confirm your order within 1-2 hours.
+                </span>
               </div>
             </div>
 
@@ -323,10 +387,10 @@ export default function CheckoutPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-brand-ruby hover:bg-rose-950 disabled:opacity-50 text-white font-sans text-sm font-bold tracking-widest uppercase py-4 shadow-md transition-all rounded-xs"
+              className="w-full flex items-center justify-center gap-2 bg-brand-ruby hover:bg-rose-950 disabled:opacity-50 text-white font-sans text-sm font-bold tracking-widest uppercase py-4 shadow-md transition-all rounded-xs cursor-pointer"
             >
               <Send className="w-4 h-4 text-brand-gold" />
-              {loading ? "Processing checkout request..." : "Authorize Simulated Purchase"}
+              {loading ? "Processing checkout request..." : "Confirm Payment & Place Order"}
             </button>
           </div>
 

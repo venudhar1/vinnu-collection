@@ -11,6 +11,9 @@ interface OrderItemRecord {
   item_id: string;
   quantity: number;
   price: number;
+  sku?: string;
+  color?: string;
+  set_name?: string;
 }
 
 interface OrderRecord {
@@ -21,6 +24,7 @@ interface OrderRecord {
   shipping_address: string;
   total_amount: number;
   status: string; // pending, paid, shipped, cancelled
+  payment_id?: string;
   created_at: string;
   items: OrderItemRecord[];
 }
@@ -200,15 +204,41 @@ export default function AdminOrdersPage() {
               </div>
             </div>
 
+            {/* UPI Payment Verification */}
+            <div className="space-y-3 text-xs font-sans border-t border-zinc-150 pt-4">
+              <h4 className="font-bold text-zinc-700 uppercase tracking-wide text-[10px]">UPI Payment Verification</h4>
+              <div className="space-y-2 text-zinc-650 bg-[#FAF7F2] p-3 rounded-xs border border-[#E6E0D5]">
+                <div className="flex justify-between items-center">
+                  <span className="text-zinc-500">Transaction ID / UTR:</span>
+                  <span className="font-mono font-bold text-brand-charcoal text-[11px] bg-white border border-zinc-200 px-2.5 py-0.5 rounded-sm">
+                    {selectedOrder.payment_id || "None Provided"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-[10px] text-zinc-500 pt-1 border-t border-zinc-100">
+                  <span>Match Status:</span>
+                  <span className={selectedOrder.status === "paid" || selectedOrder.status === "shipped" ? "text-emerald-800 font-bold uppercase tracking-wider text-[9px]" : "text-amber-800 font-bold uppercase tracking-wider text-[9px]"}>
+                    {selectedOrder.status === "paid" || selectedOrder.status === "shipped" ? "Verified & Confirmed" : "Pending Check"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
             {/* Ordered Items */}
-            <div className="space-y-3">
+            <div className="space-y-3 border-t border-zinc-150 pt-4">
               <h4 className="font-bold text-zinc-700 uppercase tracking-wide text-[10px] font-sans">Purchase Summary</h4>
               <div className="divide-y divide-zinc-100 text-xs">
                 {selectedOrder.items && selectedOrder.items.map((lineItem) => (
                   <div key={lineItem.id} className="py-2.5 flex justify-between items-center">
                     <div>
-                      <span className="font-mono text-zinc-400 block text-[9px]">{lineItem.item_id.substring(0, 8)}...</span>
-                      <span className="font-medium text-zinc-700">Saree SKU Variant</span>
+                      <span className="font-serif text-zinc-800 font-bold block text-sm">
+                        {lineItem.set_name || "Saree SKU Variant"}
+                      </span>
+                      <span className="text-[10px] text-zinc-500 block font-sans">
+                        Color: {lineItem.color || "N/A"}
+                      </span>
+                      <span className="font-mono text-zinc-400 block text-[9px]">
+                        SKU: {lineItem.sku || lineItem.item_id.substring(0, 8) + "..."}
+                      </span>
                     </div>
                     <div className="text-right">
                       <span className="text-zinc-500 block text-[10px]">Qty: {lineItem.quantity}</span>
