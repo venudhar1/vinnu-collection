@@ -106,7 +106,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
           <div>
             <h4 className="font-sans text-xs uppercase tracking-wider text-brand-gold font-bold mb-4">Stay Connected</h4>
             <p className="text-xs text-slate-300 mb-3">Subscribe to get notifications on new arrivals and seasonal discounts.</p>
-            <div className="flex gap-2">
+            <div className="flex gap-2 mb-4">
               <input
                 type="email"
                 placeholder="Your email"
@@ -116,13 +116,52 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
                 Join
               </button>
             </div>
+            {/* Elegant Social Icons */}
+            <div className="flex gap-3 mt-5">
+              <a 
+                href="https://www.instagram.com/venucollections/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="p-2 bg-zinc-800 text-brand-gold hover:text-white hover:bg-zinc-700 rounded-full transition-all duration-200 border border-brand-gold/15 hover:border-brand-gold/50 cursor-pointer"
+                title="Follow us on Instagram"
+              >
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a 
+                href="https://chat.whatsapp.com/KKA3HDnSbKm8etwlJQ5R3I?s=cl&p=i&ilr=1" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="p-2 bg-zinc-800 text-brand-gold hover:text-white hover:bg-zinc-700 rounded-full transition-all duration-200 border border-brand-gold/15 hover:border-brand-gold/50 cursor-pointer"
+                title="Chat with us on WhatsApp"
+              >
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </a>
+              <a 
+                href="https://www.youtube.com/@venucollections" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="p-2 bg-zinc-800 text-brand-gold hover:text-white hover:bg-zinc-700 rounded-full transition-all duration-200 border border-brand-gold/15 hover:border-brand-gold/50 cursor-pointer"
+                title="Watch our YouTube Channel"
+              >
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-zinc-800 mt-10 pt-6 flex flex-col sm:flex-row justify-between text-zinc-500 text-[10px]">
           <p>© 2026 Venu Collections. All rights reserved. Made in India.</p>
           <div className="flex gap-4 mt-2 sm:mt-0">
-            <span className="hover:text-white cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-white cursor-pointer">Terms of Service</span>
+            <Link href="/shop/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/shop/terms" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </footer>
