@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Sparkles, Shield, Truck, RotateCcw } from "lucide-react";
+import { ArrowRight, Sparkles, Shield, Truck, MessageCircle } from "lucide-react";
 
 interface SetItem {
   id: string;
@@ -25,7 +25,18 @@ export default function ShopHomePage() {
   });
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-12">
+      {/* Premium Horizontal Trust Banner */}
+      <section className="bg-white border border-[#E6E0D5] py-3.5 px-4 rounded-xs flex flex-wrap justify-center items-center gap-4 md:gap-8 text-[9px] uppercase font-bold tracking-widest text-brand-gold shadow-xs">
+        <span className="flex items-center gap-1">✓ Authentic Handloom Products</span>
+        <span className="text-zinc-200 hidden sm:inline">|</span>
+        <span className="flex items-center gap-1">✓ Secured UPI Scan & Pay</span>
+        <span className="text-zinc-200 hidden sm:inline">|</span>
+        <span className="flex items-center gap-1">✓ Free Insured Shipping</span>
+        <span className="text-zinc-200 hidden sm:inline">|</span>
+        <span className="flex items-center gap-1">✓ WhatsApp Live Support</span>
+      </section>
+
       {/* Editorial Hero Banner */}
       <section className="relative overflow-hidden bg-brand-charcoal text-white py-24 px-8 md:px-16 rounded-sm border border-brand-gold/30 shadow-md">
         {/* Decorative backdrop elements */}
@@ -89,11 +100,11 @@ export default function ShopHomePage() {
 
         <div className="flex gap-4 items-start">
           <div className="p-3 bg-brand-cream border border-brand-gold/30 text-brand-gold rounded-full flex-shrink-0">
-            <RotateCcw className="w-5 h-5" />
+            <MessageCircle className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="font-bold text-brand-charcoal uppercase tracking-wider">Hassle-Free Returns</h4>
-            <p className="text-brand-muted mt-1 leading-relaxed">Shop with confidence. If the weave details do not match your standards, returns are accepted within 7 days.</p>
+            <h4 className="font-bold text-brand-charcoal uppercase tracking-wider">Instant WhatsApp Support</h4>
+            <p className="text-brand-muted mt-1 leading-relaxed">Have a question about a weave or custom order? Connect directly with our team on WhatsApp for instant assistance.</p>
           </div>
         </div>
       </section>

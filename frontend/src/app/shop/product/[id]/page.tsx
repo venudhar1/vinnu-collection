@@ -267,7 +267,7 @@ function ProductDetailContent({ setId }: { setId: string }) {
           )}
 
           {/* Add to Bag and CTA */}
-          <div className="pt-4 flex gap-4">
+          <div className="pt-4 flex flex-col sm:flex-row gap-3">
             <button
               onClick={() => addToCart(activeItem, setObj)}
               disabled={activeItem.status !== "available" || activeItem.quantity <= 0}
@@ -277,7 +277,19 @@ function ProductDetailContent({ setId }: { setId: string }) {
               {activeItem.status === "available" ? "Add to Shopping Bag" : "Sold Out"}
             </button>
             
-            <button className="p-4 border border-[#E6E0D5] text-brand-muted hover:text-brand-ruby hover:border-brand-ruby rounded-xs transition-colors">
+            <a
+              href={`https://wa.me/919963988633?text=${encodeURIComponent(`Hi, I have a question about ${setObj.name} (Color: ${activeItem.color}, SKU: ${activeItem.sku})`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-sans text-xs font-bold tracking-widest uppercase py-4 shadow-md transition-all rounded-xs"
+            >
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.284 1.447 4.96 1.448 5.432 0 9.855-4.437 9.858-9.899.002-2.647-1.03-5.132-2.903-7.009-1.874-1.878-4.37-2.91-7.014-2.912-5.434 0-9.858 4.441-9.863 9.903-.002 1.778.469 3.511 1.361 5.048l-.934 3.41 3.484-.913zm11.232-6.52c-.329-.165-1.95-.963-2.253-1.074-.303-.11-.524-.165-.744.165-.22.33-.853 1.074-1.046 1.294-.193.22-.386.242-.715.077-.329-.165-1.389-.512-2.647-1.635-.978-.873-1.637-1.952-1.829-2.28-.193-.33-.02-.508.145-.671.149-.147.33-.385.495-.578.165-.192.22-.33.33-.55.11-.22.055-.412-.028-.577-.083-.165-.744-1.792-1.019-2.457-.267-.643-.539-.556-.744-.567-.193-.01-.413-.012-.633-.012s-.578.082-.88.412c-.303.33-1.157 1.129-1.157 2.75 0 1.62 1.183 3.19 1.348 3.41.165.22 2.328 3.555 5.64 4.987.788.34 1.403.543 1.883.696.792.252 1.513.216 2.083.13.635-.096 1.95-.798 2.226-1.568.275-.769.275-1.43.193-1.567-.083-.138-.303-.22-.633-.386z"/>
+              </svg>
+              WhatsApp Enquiry
+            </a>
+            
+            <button className="p-4 border border-[#E6E0D5] text-brand-muted hover:text-brand-ruby hover:border-brand-ruby rounded-xs transition-colors flex items-center justify-center">
               <Heart className="w-4 h-4" />
             </button>
           </div>

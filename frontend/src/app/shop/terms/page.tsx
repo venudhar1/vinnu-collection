@@ -55,15 +55,14 @@ export default function TermsOfServicePage() {
         <section className="space-y-3">
           <h2 className="font-serif text-lg text-brand-charcoal border-b border-[#FAF7F2] pb-1.5 flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-brand-gold" />
-            2. Returns & Exchange Policy
+            2. Final Sale & No Returns Policy
           </h2>
           <p>
-            We take pride in our handcrafted quality and offer returns subject to the following criteria:
+            Due to the delicate nature of handloom textiles, authentic zari threads, and artisanal weaves, all products sold on Venu Collections are considered <strong>Final Sale</strong>.
           </p>
           <ul className="list-disc list-inside space-y-1 pl-2 text-brand-muted font-medium">
-            <li><strong>7-Day Window:</strong> Returns or exchange requests must be initiated within 7 calendar days of order delivery.</li>
-            <li><strong>Original Condition:</strong> The saree must be completely unused, unwashed, and returned with original artisan folds, threads, price tags, and packaging intact.</li>
-            <li><strong>Shipping Costs:</strong> Customers are responsible for safe return transit shipping fees, unless the incorrect item variant was delivered.</li>
+            <li><strong>No Returns or Exchanges:</strong> Once a saree is dispatched, we cannot accept return or exchange requests, as these delicate fabrics lose their structural and design value once unfolded or refolded outside of professional settings.</li>
+            <li><strong>Damages in Transit:</strong> In the rare event that an item is damaged during transit, you must report the issue along with package opening video proof to our customer care team within 24 hours of delivery signature.</li>
           </ul>
         </section>
 

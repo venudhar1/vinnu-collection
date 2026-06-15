@@ -98,7 +98,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
           <div>
             <h4 className="font-sans text-xs uppercase tracking-wider text-brand-gold font-bold mb-4">Customer Care</h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><span className="cursor-pointer hover:text-brand-gold transition-colors">Shipping & Returns</span></li>
+              <li><span className="cursor-pointer hover:text-brand-gold transition-colors">Shipping Policy</span></li>
               <li><span className="cursor-pointer hover:text-brand-gold transition-colors">Fabric Care Guide</span></li>
               <li><span className="cursor-pointer hover:text-brand-gold transition-colors">Contact Support</span></li>
             </ul>
@@ -287,6 +287,65 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
           </div>
         </div>
       )}
+
+      {/* Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/919963988633?text=Hi%20Venu%20Collections%2C%20I'm%20interested%20in%20this%20product."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-40 bg-[#25D366] hover:bg-[#128C7E] text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center border border-white/20 md:bottom-6 bottom-20"
+        title="Chat on WhatsApp"
+        id="floating-whatsapp-btn"
+      >
+        <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.284 1.447 4.96 1.448 5.432 0 9.855-4.437 9.858-9.899.002-2.647-1.03-5.132-2.903-7.009-1.874-1.878-4.37-2.91-7.014-2.912-5.434 0-9.858 4.441-9.863 9.903-.002 1.778.469 3.511 1.361 5.048l-.934 3.41 3.484-.913zm11.232-6.52c-.329-.165-1.95-.963-2.253-1.074-.303-.11-.524-.165-.744.165-.22.33-.853 1.074-1.046 1.294-.193.22-.386.242-.715.077-.329-.165-1.389-.512-2.647-1.635-.978-.873-1.637-1.952-1.829-2.28-.193-.33-.02-.508.145-.671.149-.147.33-.385.495-.578.165-.192.22-.33.33-.55.11-.22.055-.412-.028-.577-.083-.165-.744-1.792-1.019-2.457-.267-.643-.539-.556-.744-.567-.193-.01-.413-.012-.633-.012s-.578.082-.88.412c-.303.33-1.157 1.129-1.157 2.75 0 1.62 1.183 3.19 1.348 3.41.165.22 2.328 3.555 5.64 4.987.788.34 1.403.543 1.883.696.792.252 1.513.216 2.083.13.635-.096 1.95-.798 2.226-1.568.275-.769.275-1.43.193-1.567-.083-.138-.303-.22-.633-.386z"/>
+        </svg>
+      </a>
+
+      {/* Mobile Sticky Contact Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-brand-charcoal text-white border-t border-brand-gold/30 h-16 flex items-center justify-around px-4 shadow-lg">
+        <a 
+          href="https://chat.whatsapp.com/KKA3HDnSbKm8etwlJQ5R3I?s=cl&p=i&ilr=1" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="flex flex-col items-center gap-1 text-[#25D366] hover:opacity-80 transition-opacity"
+          id="mobile-contact-whatsapp"
+        >
+          <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.284 1.447 4.96 1.448 5.432 0 9.855-4.437 9.858-9.899.002-2.647-1.03-5.132-2.903-7.009-1.874-1.878-4.37-2.91-7.014-2.912-5.434 0-9.858 4.441-9.863 9.903-.002 1.778.469 3.511 1.361 5.048l-.934 3.41 3.484-.913zm11.232-6.52c-.329-.165-1.95-.963-2.253-1.074-.303-.11-.524-.165-.744.165-.22.33-.853 1.074-1.046 1.294-.193.22-.386.242-.715.077-.329-.165-1.389-.512-2.647-1.635-.978-.873-1.637-1.952-1.829-2.28-.193-.33-.02-.508.145-.671.149-.147.33-.385.495-.578.165-.192.22-.33.33-.55.11-.22.055-.412-.028-.577-.083-.165-.744-1.792-1.019-2.457-.267-.643-.539-.556-.744-.567-.193-.01-.413-.012-.633-.012s-.578.082-.88.412c-.303.33-1.157 1.129-1.157 2.75 0 1.62 1.183 3.19 1.348 3.41.165.22 2.328 3.555 5.64 4.987.788.34 1.403.543 1.883.696.792.252 1.513.216 2.083.13.635-.096 1.95-.798 2.226-1.568.275-.769.275-1.43.193-1.567-.083-.138-.303-.22-.633-.386z"/>
+          </svg>
+          <span className="text-[9px] font-sans font-semibold tracking-wider">WhatsApp</span>
+        </a>
+        <div className="w-[1px] h-6 bg-brand-gold/25" />
+        <a 
+          href="https://www.instagram.com/venucollections/" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="flex flex-col items-center gap-1 text-brand-gold hover:opacity-80 transition-opacity"
+          id="mobile-contact-instagram"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span className="text-[9px] font-sans font-semibold tracking-wider">Instagram</span>
+        </a>
+        <div className="w-[1px] h-6 bg-brand-gold/25" />
+        <a 
+          href="https://www.youtube.com/@venucollections" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="flex flex-col items-center gap-1 text-rose-500 hover:opacity-80 transition-opacity"
+          id="mobile-contact-youtube"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+          </svg>
+          <span className="text-[9px] font-sans font-semibold tracking-wider">YouTube</span>
+        </a>
+      </div>
     </div>
   );
 }
