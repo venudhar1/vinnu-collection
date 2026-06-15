@@ -110,7 +110,7 @@ class Order(SQLModel, table=True):
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
     customer_name: str
     customer_email: str
-    customer_phone: Optional[str] = None
+    customer_phone: str
     shipping_address: str
     total_amount: float
     status: str = Field(default="pending")  # pending, paid, failed, cancelled
@@ -140,7 +140,7 @@ class OrderCreate(SQLModel):
     """Schema for creating a new order"""
     customer_name: str
     customer_email: str
-    customer_phone: Optional[str] = None
+    customer_phone: str
     shipping_address: str
     items: list[OrderItemCreate]
     payment_id: Optional[str] = None
@@ -163,7 +163,7 @@ class OrderResponse(SQLModel):
     id: str
     customer_name: str
     customer_email: str
-    customer_phone: Optional[str] = None
+    customer_phone: str
     shipping_address: str
     total_amount: float
     status: str
