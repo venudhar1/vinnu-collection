@@ -77,7 +77,7 @@ async def checkout(
         customer_phone=order_data.customer_phone,
         shipping_address=order_data.shipping_address,
         total_amount=total_amount,
-        status="pending" if order_data.payment_id else "paid",
+        status="pending",
         payment_id=order_data.payment_id
     )
     

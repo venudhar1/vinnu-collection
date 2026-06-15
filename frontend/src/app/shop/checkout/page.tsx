@@ -44,20 +44,6 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
   const [orderResult, setOrderResult] = useState<any>(null);
 
-  const generateTransactionNote = () => {
-    if (cart.length === 0) return "";
-    const itemsStr = cart.map(({ item, set }) => {
-      // (SKU,color,model) note formatting
-      return `${item.sku}: ${set.name} (${item.color})`;
-    }).join(", ");
-    
-    // Truncate to maximum 50 characters to comply with UPI specifications
-    if (itemsStr.length > 50) {
-      return itemsStr.slice(0, 47) + "...";
-    }
-    return itemsStr;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (cart.length === 0) return;
@@ -310,7 +296,7 @@ export default function CheckoutPage() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img 
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
-                        `upi://pay?pa=9963988633@kotak&pn=Venu%20Collections&am=${cartTotal}&tn=${generateTransactionNote()}&cu=INR`
+                        `upi://pay?pa=9963988633@kotak&pn=Venu%20Collections&am=${cartTotal}&cu=INR`
                       )}`}
                       alt="UPI Payment QR Code"
                       className="w-44 h-44"
@@ -336,18 +322,12 @@ export default function CheckoutPage() {
                       <span className="text-zinc-400">Amount to Pay:</span>
                       <span className="font-bold text-brand-ruby text-sm">₹{cartTotal.toLocaleString()}</span>
                     </div>
-                    <div className="flex flex-col gap-1 pb-1">
-                      <span className="text-zinc-400">Transaction Note (Pre-filled):</span>
-                      <span className="bg-brand-cream border border-brand-gold/20 px-2.5 py-1.5 rounded-sm font-mono text-[9px] text-brand-gold leading-tight break-all font-bold">
-                        {generateTransactionNote()}
-                      </span>
-                    </div>
                   </div>
 
                   {/* Mobile Deep Link Button */}
                   <div className="block md:hidden">
                     <a
-                      href={`upi://pay?pa=9963988633@kotak&pn=Venu%20Collections&am=${cartTotal}&tn=${encodeURIComponent(generateTransactionNote())}&cu=INR`}
+                      href={`upi://pay?pa=9963988633@kotak&pn=Venu%20Collections&am=${cartTotal}&cu=INR`}
                       className="w-full flex items-center justify-center gap-2 bg-[#FAF7F2] border border-[#E6E0D5] hover:bg-zinc-100 text-brand-charcoal text-[11px] font-bold uppercase tracking-wider py-2.5 rounded-sm transition-all"
                     >
                       <Send className="w-3.5 h-3.5 text-brand-gold" />
@@ -357,28 +337,21 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Warning/Instruction about Note */}
-              <div className="p-3 bg-brand-cream border border-brand-gold/30 text-brand-gold rounded-xs text-[11px] leading-relaxed font-sans font-medium">
-                <strong>Important Instruction:</strong> Please do not modify or delete the transaction note inside your UPI payment app. This note contains the exact saree details (SKU, color, model) and helps us track and ship your order correctly.
-              </div>
-
-              {/* Transaction ID input field */}
+              {/* Transaction Reference/Payer Name input field */}
               <div className="space-y-1.5 border-t border-zinc-100 pt-4">
                 <label className="font-semibold text-brand-charcoal tracking-wide uppercase flex items-center gap-1.5">
                   <Lock className="w-3.5 h-3.5 text-brand-gold" />
-                  UPI Transaction ID / UTR Number
+                  Payer Name or UPI Reference (Optional)
                 </label>
                 <input
                   type="text"
-                  required
-                  pattern="\d{12}"
                   value={transactionId}
-                  onChange={(e) => setTransactionId(e.target.value.replace(/\D/g, "").slice(0, 12))}
-                  placeholder="Enter the 12-digit transaction ID after payment"
-                  className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#E6E0D5] rounded-sm focus:outline-hidden focus:border-brand-gold font-mono text-sm"
+                  onChange={(e) => setTransactionId(e.target.value)}
+                  placeholder="e.g. Priya Sharma or last 4 digits of UTR"
+                  className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#E6E0D5] rounded-sm focus:outline-hidden focus:border-brand-gold font-sans text-xs"
                 />
-                <span className="text-[10px] text-brand-muted block mt-1 leading-relaxed">
-                  Submit the 12-digit Transaction ID/UTR from your payment confirmation screen. Once submitted, our team will verify it against our receiver statement to confirm your order within 1-2 hours.
+                <span className="text-[10px] text-brand-muted block mt-1 leading-relaxed font-sans">
+                  You can optionally enter the name on your UPI account or transaction details to help us match your payment and process your order faster.
                 </span>
               </div>
             </div>

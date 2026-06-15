@@ -345,8 +345,13 @@ def test_checkout_and_orders(client: TestClient, api_key: str):
     order_data = checkout_res.json()
     assert order_data["customer_name"] == "Test Customer"
     assert order_data["total_amount"] == (2000.00 * 2 + 1500.00 * 1)
-    assert order_data["status"] == "paid"
+    assert order_data["status"] == "pending"
     order_id = order_data["id"]
+
+    # Mark the order as paid as admin
+    mark_paid = client.put(f"/orders/{order_id}/status?status=paid", headers={"x-api-key": api_key})
+    assert mark_paid.status_code == 200
+    assert mark_paid.json()["status"] == "paid"
 
     # Verify inventory was decremented
     # Item 1: went from 5 to 3. Should still be "available"
