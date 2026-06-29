@@ -140,9 +140,9 @@ export default function ShopHomePage() {
   };
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10">
       {/* Premium Horizontal Trust Banner */}
-      <section className="bg-white border border-[#E6E0D5] py-3.5 px-4 rounded-xs flex flex-wrap justify-center items-center gap-4 md:gap-8 text-[9px] uppercase font-bold tracking-widest text-brand-gold shadow-xs">
+      <section className="bg-white border border-[#E6E0D5] py-3.5 px-4 rounded-md flex flex-wrap justify-center items-center gap-4 md:gap-8 text-[9px] uppercase font-bold tracking-widest text-brand-gold shadow-xs">
         <span className="flex items-center gap-1">✓ Authentic Handloom Products</span>
         <span className="text-zinc-200 hidden sm:inline">|</span>
         <span className="flex items-center gap-1">✓ Secured UPI Scan & Pay</span>
@@ -152,36 +152,42 @@ export default function ShopHomePage() {
         <span className="flex items-center gap-1">✓ WhatsApp Live Support</span>
       </section>
 
-      {/* Editorial Hero Banner */}
-      <section className="relative overflow-hidden bg-brand-charcoal text-white py-24 px-8 md:px-16 rounded-sm border border-brand-gold/30 shadow-md">
-        {/* Decorative backdrop elements */}
-        <div className="absolute right-0 top-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl" />
-        <div className="absolute left-1/3 bottom-0 w-64 h-64 bg-brand-ruby/5 rounded-full blur-3xl" />
-        
-        <div className="relative max-w-2xl space-y-6">
-          <div className="inline-flex items-center gap-1 bg-brand-gold/10 border border-brand-gold/30 px-3 py-1 rounded-full text-xs text-brand-gold font-sans font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
+      {/* Editorial Hero Section */}
+      <section className="relative grid grid-cols-1 md:grid-cols-12 items-center gap-8 md:gap-12 pt-6 pb-12 md:pt-10 md:pb-16">
+        {/* Text Content */}
+        <div className="md:col-span-5 flex flex-col justify-center space-y-4 pr-0 md:pr-6">
+          <div className="flex items-center gap-1.5 text-brand-gold font-sans font-bold uppercase tracking-widest text-[9px]">
+            <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
             Seasonal Launch: Pure Weaves
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-serif tracking-wide text-white leading-tight">
+          <h1 className="text-3xl md:text-4xl font-serif tracking-wide text-brand-charcoal leading-tight">
             The Heritage <br />
-            <span className="text-brand-gold italic">Silk & Zari</span> Collection
+            <span className="text-brand-gold italic font-normal">Silk & Zari</span> Collection
           </h1>
           
-          <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-sans max-w-lg">
+          <p className="text-xs text-brand-muted leading-relaxed font-sans max-w-md">
             Immerse yourself in sarees crafted by generational Indian artisans. Each weave represents weeks of meticulous handloom artistry, featuring authentic raw fabrics and heritage gold zari borders.
           </p>
           
-          <div className="pt-4 flex flex-wrap gap-4">
+          <div className="pt-2">
             <a 
               href="#saree-catalog"
-              className="bg-brand-gold text-brand-charcoal px-6 py-3 rounded-xs font-bold text-xs uppercase tracking-widest hover:bg-yellow-600 transition-colors shadow-lg flex items-center gap-2"
+              className="text-brand-gold hover:text-yellow-600 transition-colors uppercase tracking-widest text-[10px] font-bold inline-flex items-center gap-1.5 border-b border-brand-gold/40 pb-0.5"
             >
               Browse Catalogue
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </a>
           </div>
+        </div>
+        
+        {/* Hero Image */}
+        <div className="md:col-span-7 aspect-[3/4] max-h-[580px] relative overflow-hidden rounded-lg border border-[#E6E0D5]">
+          <img 
+            src="/images/hero_saree.png" 
+            alt="Premium Silk Saree Showcase"
+            className="w-full h-full object-cover object-top transform hover:scale-105 transition-transform duration-700"
+          />
         </div>
       </section>
 
@@ -193,7 +199,7 @@ export default function ShopHomePage() {
           </div>
           <div>
             <h4 className="font-bold text-brand-charcoal uppercase tracking-wider">100% Authentic Handloom</h4>
-            <p className="text-brand-muted mt-1 leading-relaxed">Certified authentic fibers and genuine metallic threads sourced directly from weaving clusters.</p>
+            <p className="text-brand-muted mt-1 leading-relaxed">Certified fibers and genuine gold/silver metallic threads sourced directly from weavers.</p>
           </div>
         </div>
         
@@ -203,7 +209,7 @@ export default function ShopHomePage() {
           </div>
           <div>
             <h4 className="font-bold text-brand-charcoal uppercase tracking-wider">Insured Shipping</h4>
-            <p className="text-brand-muted mt-1 leading-relaxed">Free secure transit insurance across India and trackable international delivery options.</p>
+            <p className="text-brand-muted mt-1 leading-relaxed">Free secure transit insurance across India with reliable tracking.</p>
           </div>
         </div>
 
@@ -213,7 +219,7 @@ export default function ShopHomePage() {
           </div>
           <div>
             <h4 className="font-bold text-brand-charcoal uppercase tracking-wider">Instant WhatsApp Support</h4>
-            <p className="text-brand-muted mt-1 leading-relaxed">Have a question about a weave or custom order? Connect directly with our team on WhatsApp for instant assistance.</p>
+            <p className="text-brand-muted mt-1 leading-relaxed">Chat directly with our team for styling advice or custom order assistance.</p>
           </div>
         </div>
       </section>
@@ -227,7 +233,7 @@ export default function ShopHomePage() {
         </div>
 
         {/* Toolbar / Filters Panel */}
-        <div className="bg-white border border-[#E6E0D5] p-6 rounded-sm flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
+        <div className="bg-white border border-[#E6E0D5] p-6 rounded-lg flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 shadow-xs">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
             <input
@@ -235,7 +241,7 @@ export default function ShopHomePage() {
               placeholder="Search color, material, collection..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 bg-[#FAF7F2] border border-[#E6E0D5] rounded-sm focus:outline-hidden focus:border-brand-gold text-xs font-sans"
+              className="w-full pl-9 pr-4 py-2.5 bg-[#FAF7F2] border border-[#E6E0D5] rounded-md focus:outline-hidden focus:border-brand-gold text-xs font-sans"
             />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" />
           </div>
@@ -243,7 +249,7 @@ export default function ShopHomePage() {
           {/* Dropdowns */}
           <div className="flex flex-wrap items-center gap-4">
             {/* Fabric Filter */}
-            <div className="flex items-center gap-2 border border-[#E6E0D5] rounded-xs px-3 py-1 bg-[#FAF7F2]">
+            <div className="flex items-center gap-2 border border-[#E6E0D5] rounded-md px-3 py-1 bg-[#FAF7F2]">
               <SlidersHorizontal className="w-3.5 h-3.5 text-brand-muted" />
               <select
                 value={selectedFabric}
@@ -258,7 +264,7 @@ export default function ShopHomePage() {
             </div>
 
             {/* Sort By */}
-            <div className="flex items-center gap-2 border border-[#E6E0D5] rounded-xs px-3 py-1 bg-[#FAF7F2]">
+            <div className="flex items-center gap-2 border border-[#E6E0D5] rounded-md px-3 py-1 bg-[#FAF7F2]">
               <ArrowUpDown className="w-3.5 h-3.5 text-brand-muted" />
               <select
                 value={sortBy}
@@ -278,7 +284,7 @@ export default function ShopHomePage() {
             <div className="w-8 h-8 border-4 border-brand-gold border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
             {sortedProducts.length > 0 ? (
               sortedProducts.map(({ set, items }) => {
                 const activeIdx = activeItemIndexes[set.id] !== undefined ? activeItemIndexes[set.id] : 0;
@@ -315,12 +321,11 @@ export default function ShopHomePage() {
                 return (
                   <div 
                     key={set.id}
-                    className="bg-white border border-[#E6E0D5] hover:border-brand-gold/60 rounded-xs overflow-hidden flex flex-col justify-between shadow-xs hover:shadow-lg transition-all group"
+                    className="flex flex-col justify-between group"
                   >
-                    {/* Saree Card Photo container with Hover Swap and Zoom */}
                     <Link 
                       href={`/shop/product/${set.id}?variant=${activeItem.id}`}
-                      className="block relative aspect-[3/4] bg-brand-cream overflow-hidden border-b border-[#E6E0D5] saree-card-image-container"
+                      className="block relative aspect-[3/4] bg-brand-cream overflow-hidden border border-[#E6E0D5] rounded-lg saree-card-image-container"
                     >
                       {primaryImage ? (
                         <>
@@ -345,12 +350,12 @@ export default function ShopHomePage() {
 
                       {/* Stock Status Badge */}
                       {activeItem.status !== "available" ? (
-                        <span className="absolute top-4 left-4 bg-brand-ruby text-white font-sans text-[8px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-sm shadow-sm z-10">
+                        <span className="absolute top-3 left-3 bg-brand-ruby text-white font-sans text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-xs shadow-xs z-10">
                           {activeItem.status}
                         </span>
                       ) : (
                         discountPct > 0 && (
-                          <span className="absolute top-4 left-4 bg-brand-gold text-white font-sans text-[8px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-sm shadow-sm z-10">
+                          <span className="absolute top-3 left-3 bg-brand-gold text-white font-sans text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-xs shadow-xs z-10">
                             {discountPct}% OFF
                           </span>
                         )
@@ -358,14 +363,14 @@ export default function ShopHomePage() {
                     </Link>
 
                     {/* Saree Details Content */}
-                    <div className="p-6 space-y-4">
-                      <div className="space-y-1">
+                    <div className="pt-4 pb-2 space-y-2">
+                      <div className="space-y-0.5">
                         <span className="text-[9px] uppercase font-bold tracking-widest text-brand-gold block font-sans">
                           {materialName}
                         </span>
                         <Link 
                           href={`/shop/product/${set.id}?variant=${activeItem.id}`}
-                          className="block font-serif text-lg text-zinc-800 hover:text-brand-gold transition-colors line-clamp-1"
+                          className="block font-serif text-base text-zinc-800 hover:text-brand-gold transition-colors line-clamp-1 font-medium"
                         >
                           {set.name}
                         </Link>
@@ -373,34 +378,32 @@ export default function ShopHomePage() {
 
                       {/* Price display with discounts */}
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-base text-brand-ruby font-sans">
+                        <span className="font-bold text-sm text-brand-ruby font-sans">
                           ₹{activeItem.price.toLocaleString()}
                         </span>
                         {originalPrice && (
-                          <span className="text-zinc-400 line-through text-xs font-sans">
+                          <span className="text-zinc-400 line-through text-[11px] font-sans">
                             ₹{originalPrice.toLocaleString()}
                           </span>
                         )}
                         {discountPct > 0 && (
-                          <span className="text-emerald-700 font-sans text-[10px] font-bold">
+                          <span className="text-emerald-700 font-sans text-[9px] font-bold">
                             ({discountPct}% OFF)
                           </span>
                         )}
                       </div>
 
-                      {/* Swatches selector */}
-                      <div className="space-y-1.5">
-                        <span className="text-[9px] uppercase font-bold tracking-wider text-zinc-400 block font-sans">
-                          Available Colors:
-                        </span>
-                        <div className="flex flex-wrap gap-2">
+                      {/* Swatches & CTA */}
+                      <div className="flex items-center justify-between gap-4 pt-1">
+                        {/* Swatches */}
+                        <div className="flex items-center gap-1.5">
                           {items.map((item, idx) => (
                             <button
                               key={item.id}
                               onClick={() => handleSwatchClick(set.id, idx)}
-                              className={`w-5 h-5 rounded-full border flex-shrink-0 transition-all ${
+                              className={`w-4 h-4 rounded-full border flex-shrink-0 transition-all ${
                                 activeIdx === idx 
-                                  ? "ring-2 ring-brand-gold border-white scale-110" 
+                                  ? "ring-1.5 ring-brand-gold border-white scale-110" 
                                   : "border-zinc-300 hover:scale-105"
                               }`}
                               style={{ backgroundColor: item.color.toLowerCase() }}
@@ -408,25 +411,16 @@ export default function ShopHomePage() {
                             />
                           ))}
                         </div>
+
+                        {/* Direct Add to Cart Button */}
+                        <button
+                          onClick={() => addToCart(activeItem, set)}
+                          disabled={activeItem.status !== "available" || activeItem.quantity <= 0}
+                          className="text-[10px] font-sans font-bold uppercase tracking-widest text-brand-charcoal hover:text-brand-gold disabled:text-zinc-300 transition-colors cursor-pointer border-b border-brand-charcoal/20 hover:border-brand-gold/40 pb-0.5"
+                        >
+                          {activeItem.status === "available" ? "Add to Bag" : "Sold Out"}
+                        </button>
                       </div>
-                    </div>
-
-                    {/* Card CTA Actions */}
-                    <div className="border-t border-[#E6E0D5] px-6 py-4 bg-[#FAF7F2] flex items-center justify-between gap-3">
-                      <Link
-                        href={`/shop/product/${set.id}?variant=${activeItem.id}`}
-                        className="text-[10px] font-bold uppercase tracking-wider text-brand-muted hover:text-brand-charcoal transition-colors font-sans"
-                      >
-                        Details
-                      </Link>
-
-                      <button
-                        onClick={() => addToCart(activeItem, set)}
-                        disabled={activeItem.status !== "available" || activeItem.quantity <= 0}
-                        className="bg-brand-charcoal text-white hover:bg-zinc-800 disabled:bg-zinc-300 disabled:text-zinc-500 px-4 py-2 text-[10px] font-bold uppercase tracking-wider rounded-xs shadow-md transition-colors"
-                      >
-                        {activeItem.status === "available" ? "Add to Bag" : "Out of Stock"}
-                      </button>
                     </div>
                   </div>
                 );
@@ -448,26 +442,24 @@ export default function ShopHomePage() {
         )}
       </section>
 
-      {/* Brand Story Banner */}
-      <section className="bg-white border border-[#E6E0D5] p-12 rounded-sm grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      {/* Brand Story Section */}
+      <section className="bg-white/45 border border-[#E6E0D5]/50 p-6 md:p-10 rounded-lg grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <div className="space-y-6">
           <span className="text-[10px] uppercase font-bold tracking-wider text-brand-gold block font-sans">Our Devotion</span>
-          <h2 className="text-3xl font-serif text-brand-charcoal tracking-wide leading-tight">Preserving the Art of the Weaving Loom</h2>
+          <h2 className="text-3xl font-serif text-brand-charcoal tracking-wide leading-tight">Preserving the Weaving Loom Art</h2>
           <p className="text-xs sm:text-sm text-brand-muted leading-relaxed font-sans">
-            Every saree we curate at Venu Collections is selected for its authenticity. We partner directly with weaving families in Banaras, Kanchipuram, and Sambalpur, bypassing intermediaries. This secures a fair wage for the artisans and ensures you receive a masterpiece of verified origin and outstanding quality.
+            We partner directly with weaving families, bypassing intermediaries. This secures fair wages for the artisans and ensures you receive a handloom masterpiece of verified origin and outstanding quality.
           </p>
           <div className="border-l-2 border-brand-gold pl-4 text-xs font-sans text-brand-charcoal font-medium italic">
-            &quot;Saree drape is not just attire, it is the celebration of centuries of handloom culture and storytelling.&quot;
+            &quot;Saree drape is a celebration of handloom culture and storytelling.&quot;
           </div>
         </div>
-        <div className="h-64 sm:h-80 bg-brand-cream border border-[#E6E0D5] rounded-xs flex items-center justify-center p-6 text-center">
-          <div className="space-y-3 max-w-sm">
-            <Sparkles className="w-8 h-8 text-brand-gold mx-auto" />
-            <h4 className="font-serif text-lg text-brand-charcoal">Handcrafted Heritage</h4>
-            <p className="text-xs text-brand-muted leading-relaxed font-sans">
-              From heavy silk wedding bridal sets to lightweight daily-wear cotton weaves, explore authentic Indian textiles.
-            </p>
-          </div>
+        <div className="h-64 sm:h-80 relative overflow-hidden rounded-lg border border-[#E6E0D5]">
+          <img 
+            src="/images/banarasi_wine_1.png" 
+            alt="Handcrafted Banarasi Saree Weave"
+            className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
+          />
         </div>
       </section>
     </div>

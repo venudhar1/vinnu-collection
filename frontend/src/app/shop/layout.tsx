@@ -20,7 +20,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
     <div className="flex flex-col min-h-screen bg-brand-cream">
       {/* Premium Header */}
       <header className="sticky top-0 z-40 w-full glass-nav shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-8">
             {/* Elegant Serif Logo */}
             <Link href="/shop" className="text-2xl font-serif tracking-widest text-brand-charcoal hover:opacity-80 transition-opacity">
@@ -74,13 +74,13 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
         {children}
       </main>
 
       {/* Brand Footer */}
       <footer className="bg-brand-charcoal text-white mt-12 py-12 border-t border-brand-gold/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="font-serif text-lg tracking-widest text-brand-gold mb-4">VENU</h3>
             <p className="text-xs text-slate-300 leading-relaxed max-w-xs">
@@ -157,7 +157,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-zinc-800 mt-10 pt-6 flex flex-col sm:flex-row justify-between text-zinc-500 text-[10px]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-zinc-800 mt-10 pt-6 flex flex-col sm:flex-row justify-between text-zinc-500 text-[10px]">
           <p>© 2026 Venu Collections. All rights reserved. Made in India.</p>
           <div className="flex gap-4 mt-2 sm:mt-0">
             <Link href="/shop/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
