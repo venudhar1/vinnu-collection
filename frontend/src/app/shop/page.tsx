@@ -309,7 +309,7 @@ export default function ShopHomePage() {
                 }
 
                 const discountPct = Math.round(((originalPrice - activeItem.price) / originalPrice) * 100);
-                const primaryImage = imagesList.length > 0 ? imagesList[0] : null;
+                const primaryImage = imagesList.length > 0 ? imagesList[0] : undefined;
                 const secondaryImage = imagesList.length > 1 ? imagesList[1] : primaryImage;
 
                 return (
