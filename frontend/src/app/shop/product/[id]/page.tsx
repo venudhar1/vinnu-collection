@@ -39,6 +39,7 @@ function ProductDetailContent({ setId }: { setId: string }) {
   // Selected variant state
   const [activeItem, setActiveItem] = useState<Item | null>(null);
   const [activeImgIdx, setActiveImgIdx] = useState(0);
+  const [zoomStyle, setZoomStyle] = useState<React.CSSProperties>({ display: "none" });
 
   // Fetch Set Details Query
   const { data: setObj, isLoading: isSetLoading } = useQuery<SetItem>({
@@ -108,6 +109,7 @@ function ProductDetailContent({ setId }: { setId: string }) {
   let materialName = "Pure Handloom Silk";
   let notes = "";
   let imagesList: string[] = [];
+  let originalPrice: number | null = null;
 
   if (activeItem.item_metadata) {
     try {
@@ -117,10 +119,59 @@ function ProductDetailContent({ setId }: { setId: string }) {
       if (meta.images && Array.isArray(meta.images)) {
         imagesList = meta.images;
       }
+      if (meta.original_price) {
+        originalPrice = Number(meta.original_price);
+      }
     } catch {}
   }
 
+  if (!originalPrice) {
+    originalPrice = Math.round(activeItem.price * 1.35);
+  }
+
+  const discountPct = Math.round(((originalPrice - activeItem.price) / originalPrice) * 100);
+
   const hasImages = imagesList.length > 0;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imagesList.length) return;
+    const container = e.currentTarget;
+    const rect = container.getBoundingClientRect();
+    
+    // Mouse coordinates relative to the container
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Ensure mouse is within bounds
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+      setZoomStyle({ display: "none" });
+      return;
+    }
+    
+    // Lens size is 160px
+    const lensWidth = 160;
+    const lensHeight = 160;
+    
+    const left = x - lensWidth / 2;
+    const top = y - lensHeight / 2;
+    
+    // Calculate percentage coordinates for background positioning
+    const xp = (x / rect.width) * 100;
+    const yp = (y / rect.height) * 100;
+    
+    setZoomStyle({
+      display: "block",
+      left: `${left}px`,
+      top: `${top}px`,
+      backgroundImage: `url(${imagesList[activeImgIdx]})`,
+      backgroundPosition: `${xp}% ${yp}%`,
+      backgroundSize: `${rect.width * 2.2}px ${rect.height * 2.2}px`, // 2.2x zoom
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setZoomStyle({ display: "none" });
+  };
 
   return (
     <div className="space-y-10 font-sans text-xs">
@@ -139,13 +190,20 @@ function ProductDetailContent({ setId }: { setId: string }) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Left Column: Image Gallery */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="relative aspect-[3/4] bg-brand-cream border border-[#E6E0D5] rounded-xs overflow-hidden flex items-center justify-center">
+          <div 
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="relative aspect-[3/4] bg-brand-cream border border-[#E6E0D5] rounded-xs overflow-hidden flex items-center justify-center magnifier-container"
+          >
             {hasImages ? (
-              <img 
-                src={imagesList[activeImgIdx]} 
-                alt={`${setObj.name} in ${activeItem.color}`}
-                className="w-full h-full object-cover animate-fade-in"
-              />
+              <>
+                <img 
+                  src={imagesList[activeImgIdx]} 
+                  alt={`${setObj.name} in ${activeItem.color}`}
+                  className="w-full h-full object-cover animate-fade-in"
+                />
+                <div className="magnifier-lens" style={zoomStyle} />
+              </>
             ) : (
               <div className="flex flex-col items-center justify-center p-8 text-center space-y-4 animate-fade-in">
                 <span className="font-serif text-2xl tracking-widest text-brand-charcoal">{setObj.name}</span>
@@ -208,11 +266,21 @@ function ProductDetailContent({ setId }: { setId: string }) {
 
           {/* Pricing indicator */}
           <div className="space-y-1.5">
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-sans font-bold text-brand-charcoal">
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <span className="text-2xl font-sans font-bold text-brand-ruby">
                 ₹{activeItem.price.toLocaleString()}
               </span>
-              <span className="text-[10px] text-brand-muted font-sans font-medium">Inclusive of all local taxes</span>
+              {originalPrice && (
+                <span className="text-zinc-400 line-through text-sm font-sans">
+                  ₹{originalPrice.toLocaleString()}
+                </span>
+              )}
+              {discountPct > 0 && (
+                <span className="text-emerald-700 font-sans text-xs font-bold">
+                  ({discountPct}% OFF)
+                </span>
+              )}
+              <span className="text-[10px] text-brand-muted font-sans font-medium ml-1">Inclusive of all local taxes</span>
             </div>
             
             {/* Availability Badging */}
